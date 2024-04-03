@@ -1,34 +1,42 @@
-import {Button, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useState} from "react";
 export default function App() {
 
   const [enteredText, setEnteredText] = useState('');
   const [goalsArr, setGoalsArr] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
   function handleInput(inputText) {
     setEnteredText(inputText);
   }
 
   function addGoalHandler() {
-    setGoalsArr((prevState) => [...prevState, enteredText]);
+    setGoalsArr((prevState) => [...prevState, {text: enteredText, key: Math.random().toString()}]);
     setEnteredText('');
-    return enteredText;
   }
 
   return (
     <View style={styles.appContainer}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.textInput} placeholder='Your course goal' onChangeText={handleInput}/>
+        <TextInput style={styles.textInput} placeholder='Your course goal' onChangeText={handleInput} value={enteredText}/>
         <Button title='Add Goal' onPress={addGoalHandler}/>
       </View>
       <View style={styles.listContainer}>
-        <ScrollView alwaysBounceVertical={false}>
-          {goalsArr.map((goal, id) => (
-            <View key={id} style={styles.goalListItem}>
-              <Text>{goal}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        {/*ScrollView is good when the number of items is limited, otherwise with every scroll all items are being
+        loaded, which reduces the app performance. Better alternative is the FlatList
+        */}
+        <FlatList
+          data={goalsArr}
+          renderItem={itemDataObj => {
+            return (
+              <View style={styles.goalListItem}>
+                {/*ItemDataObj is an object with built-in properties, like, for example, an "item" property*/}
+                <Text>{itemDataObj.item.text}</Text>
+              </View>
+            )
+          }}
+          alwaysBounceVertical={false}>
+        </FlatList>
       </View>
     </View>
   );
