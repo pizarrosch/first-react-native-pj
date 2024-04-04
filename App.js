@@ -11,6 +11,12 @@ export default function App() {
     setGoalsArr((prevState) => [...prevState, {text: enteredText, key: Math.random().toString()}]);
   }
 
+  function deleteGoalHandler(id) {
+   setGoalsArr(currentGoals => {
+     return currentGoals.filter(goal => goal.key !== id);
+   })
+  }
+
   return (
     <View style={styles.appContainer}>
       <GoalInput onAddGoal={addGoalHandler} />
@@ -21,7 +27,7 @@ export default function App() {
         <FlatList
           data={goalsArr}
           renderItem={itemDataObj => {
-            return <GoalItem text={itemDataObj.item.text}/>
+            return <GoalItem text={itemDataObj.item.text} onDeleteItem={deleteGoalHandler} goalItemId={itemDataObj.item.key}/>
           }}
           alwaysBounceVertical={false}>
         </FlatList>
