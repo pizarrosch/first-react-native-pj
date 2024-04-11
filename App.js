@@ -6,9 +6,19 @@ import GoalInput from "./components/GoalInput";
 export default function App() {
   const [goalsArr, setGoalsArr] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  function startHandler() {
+    setModalIsVisible(true);
+  }
+
+  function terminateHandler() {
+    setModalIsVisible(false);
+  }
 
   function addGoalHandler(enteredText) {
     setGoalsArr((prevState) => [...prevState, {text: enteredText, key: Math.random().toString()}]);
+    terminateHandler();
   }
 
   function deleteGoalHandler(id) {
@@ -19,7 +29,8 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button title='Add New Goal' color='#5642A6' onPress={startHandler}/>
+      <GoalInput onAddGoal={addGoalHandler} isVisible={modalIsVisible} cancelInput={terminateHandler}/>
       <View style={styles.listContainer}>
         {/*ScrollView is good when the number of items is limited, otherwise with every scroll all items are being
         loaded, which reduces the app performance. Better alternative is the FlatList

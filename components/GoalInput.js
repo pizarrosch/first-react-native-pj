@@ -1,5 +1,6 @@
-import {Button, StyleSheet, TextInput, View} from "react-native";
+import {Button, Modal, StyleSheet, TextInput, View, Image} from "react-native";
 import {useState} from "react";
+import goalImg from '../assets/images/goal.png';
 
 export default function GoalInput(props) {
   const [enteredText, setEnteredText] = useState('');
@@ -14,29 +15,58 @@ export default function GoalInput(props) {
   }
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput style={styles.textInput} placeholder='Your course goal' onChangeText={handleInput}
-                 value={enteredText}/>
-      <Button title='Add Goal' onPress={addGoalHandler}/>
-    </View>
+    <Modal visible={props.isVisible} animationType="slide">
+      <View style={styles.inputContainer}>
+        <Image style={styles.image} source={goalImg} />
+        <TextInput
+          style={styles.textInput}
+          placeholder='Your course goal'
+          onChangeText={handleInput}
+          value={enteredText}
+          placeholderTextColor='#8F99A8'
+        />
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button color='#D3D8DE' title='Add Goal' onPress={addGoalHandler}/>
+          </View>
+          <View style={styles.button}>
+            <Button color='#D3D8DE' title='Cancel' onPress={props.cancelInput}/>
+          </View>
+        </View>
+      </View>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    padding: 15,
+    marginTop: -50,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#C5CBD3'
-  },
+    backgroundColor: '#5642A6'
+  }
+  ,
   textInput: {
     borderWidth: 1,
     borderColor: '#C5CBD3',
     padding: 10,
-    marginRight: 10,
-    width: '75%'
+    width: '100%',
+    marginBottom: 10,
+    color: '#D3D8DE'
+  }
+  ,
+  buttonContainer: {
+    flexDirection: 'row',
   },
+  button: {
+    width: '30%',
+    marginHorizontal: 6,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 20
+  }
 })
