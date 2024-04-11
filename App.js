@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <Button title='Add New Goal' color='#5642A6' onPress={startHandler}/>
+      <Button title='Add New Goal' color='#2D72D2' onPress={startHandler}/>
       <GoalInput onAddGoal={addGoalHandler} isVisible={modalIsVisible} cancelInput={terminateHandler}/>
       <View style={styles.listContainer}>
         {/*ScrollView is good when the number of items is limited, otherwise with every scroll all items are being
@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     paddingTop: 50,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    backgroundColor: '#1C2127'
   },
   listContainer: {
     flex: 5,
